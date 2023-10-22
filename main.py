@@ -2,6 +2,8 @@ from tkinter import *
 import tkinter.messagebox
 import tkinter as tk
 from PIL import ImageTk, Image, ImageOps
+from pygame import mixer
+
 
 root = tk.Tk()
 root.title("BA-RA-CAT")
@@ -57,5 +59,14 @@ btn_exit.place(relx=0.5, rely=0.65, anchor="center")
 start_page.tkraise()
 root.geometry("1280x720")
 root.resizable(False, False)
-root.mainloop()
 
+#เพลง bg
+mixer.init()
+mixer.music.load("C:/project pscp/Bac-ra-cat/song_bg_1.mp3")
+mixer.music.play(loops=1000)
+
+#icon game
+root.iconbitmap("C:/project pscp/Bac-ra-cat/cat_icon.ico")
+
+
+root.mainloop()
