@@ -62,11 +62,11 @@ root.resizable(False, False)
 
 #เพลง bg
 mixer.init()
-mixer.music.load("C:/project pscp/Bac-ra-cat/song_bg_1.mp3")
+mixer.music.load("C:/project-pscp/Bac-ra-cat/song_bg_1.mp3")
 mixer.music.play(loops=1000)
 
 #icon game
-root.iconbitmap("C:/project pscp/Bac-ra-cat/cat_icon.ico")
+root.iconbitmap("C:/project-pscp/Bac-ra-cat/cat_icon.ico")
 
 
 root.mainloop()
