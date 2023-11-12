@@ -8,35 +8,32 @@ root.title('Codemy.com - Card Deck')
 root.geometry("1200x800")
 root.configure(background="green")
 
-# Stand
-def stand():
+#play function
+"""Play_Function"""
+def play():
+	"""ใช้ตอนกดplay จะนับเเต้มไพ่เเละดูว่าฝั่งไหนชนะ"""
 	global player_total, dealer_total, player_score
-	# Keep track of score totals
 	player_total = 0
 	dealer_total = 0
 
-	# Get the dealers score total
+	#เพิ่มสกอร์ฝั่งเจ้ามือ
 	for score in dealer_score:
-		# Add up score
 		dealer_total += score
-	
-
-	# Loop thru player score list and add up cards
-	for score in player_score:
-		# Add up score
-		player_total += score
-
 		
-
+	#เพิ่มสกอรืฝั่งผู้เล่น
+	for score in player_score:
+		player_total += score
+		
 	# Freeze the buttons
 	card_button.config(state="disabled")
 	stand_button.config(state="disabled")
-
+	
+	#ถ้าเกินสิบนับเเต้มหลักหน่วย
 	if player_total >= 10:
 			player_total = player_total % 10
 	if dealer_total >= 10:
 			dealer_total = dealer_total % 10
-
+			
 	if player_total >= 6:
 		if dealer_total >= 8:
 			if dealer_total == player_total:
@@ -95,45 +92,39 @@ def stand():
 					messagebox.showinfo("Dealer Wins OwO", "Dealer Wins!  Dealer: %d : %d"%(dealer_total, player_total))
 				else:
 					messagebox.showinfo("Player Wins OwO", "Player Wins!  Dealer: %d : %d"%(dealer_total, player_total))
-
-# Resize Cards
-def resize_cards(card):
-
-	our_card_img = Image.open(card)
-	our_card_resize_image = our_card_img.resize((150, 218))
+"""size_cards"""
+def size_cards(card):
+	"""ปรับขนาดไพ่"""
+	card_image = Image.open(card)
+	card_resize_size = card_image.resize((150, 218))
 	
-	global our_card_image
-	our_card_image = ImageTk.PhotoImage(our_card_resize_image)
+	global card_image_open
+	card_image_open = ImageTk.PhotoImage(card_resize_size)
+	return card_image_open
 
-	return our_card_image
-
-# Shuffle The Cards
+# สับไพ่
+"""shuffle"""
 def shuffle():
-	# Keep track of winning
-	global blackjack_status, player_total, dealer_total
+	"""ฟังก์ชันสำหรับ สับไพ่"""
+	global player_total, dealer_total
 	
-	# Keep track of score totals
 	player_total = 0
 	dealer_total = 0
-
-	blackjack_status = {"dealer":"no", "player":"no"}
 
 	# Enable buttons
 	card_button.config(state="normal")
 	stand_button.config(state="normal")
-	# Clear all the old cards from previous games
+
+	#เคลียร์การ์ดเก่า
 	dealer_label_1.config(image='')
 	dealer_label_2.config(image='')
 	dealer_label_3.config(image='')
-
 
 	player_label_1.config(image='')
 	player_label_2.config(image='')
 	player_label_3.config(image='')
 	
-
-
-	# Define Our Deck
+	# สร้างสำรับไพ่
 	suits = ["clubs"]
 	values = range(2, 15)
 	# 11 = Jack, 12=Queen, 13=King, 14 = Ace
@@ -144,15 +135,14 @@ def shuffle():
 	for suit in suits:
 		for value in values:
 			deck.append(f'{value}_of_{suit}')
-			
-	# Create our players
-	global dealer, player, dealer_spot, player_spot, dealer_score, player_score
+
+	global dealer, player, dealer_area, player_area, dealer_score, player_score
 	dealer = []
 	player = []
 	dealer_score = []
 	player_score = []
-	dealer_spot = 0
-	player_spot = 0
+	dealer_area = 0
+	player_area = 0
 
 
 
@@ -163,109 +153,67 @@ def shuffle():
 	player_hit()
 	player_hit()
 
-	# Put number of remaining cards in title bar
-	root.title(f'Codemy.com - {len(deck)} Cards Left')
 
+"""dealer_hit function"""
 def dealer_hit():
-	global dealer_spot, dealer_total
-	if dealer_spot < 3:
-		try:
-			# Get the player Card
-			dealer_card = random.choice(deck)
-			# Remove Card From Deck
-			deck.remove(dealer_card)
-			# Append Card To Dealer List
-			dealer.append(dealer_card)
-			# Append to dealer score list and convert facecards to 10 or 11
-			dcard = int(dealer_card.split("_", 1)[0])
-			if dcard == 14:
-				dealer_score.append(1)
-			elif dcard == 11 or dcard == 12 or dcard == 13 or dcard == 10:
-				dealer_score.append(10)
-			else:
-				dealer_score.append(dcard)
-			
-	
+	"""ใช้สำหรับจั่วไพ่ฝั่งเจ้ามือ"""
+	global dealer_area, dealer_total
+	if dealer_area < 3:
+		dealer_card = random.choice(deck)
+		dealer.append(dealer_card)
+		score_card_dealer = int(dealer_card.split("_", 1)[0])
+		if score_card_dealer == 14:
+			dealer_score.append(1)
+		elif score_card_dealer == 11 or score_card_dealer == 12 or score_card_dealer == 13 or score_card_dealer == 10:
+			dealer_score.append(0)
+		else:
+			dealer_score.append(score_card_dealer)
 
-			global dealer_image1, dealer_image2, dealer_image3
-			
-			
-			if dealer_spot == 0:
-				# Resize Card
-				dealer_image1 = resize_cards(f'image0/card2/{dealer_card}.png')
-				# Output Card To Screen
+		global dealer_image1, dealer_image2, dealer_image3
+
+		if dealer_area == 0:
+				dealer_image1 = size_cards(f'image0/card2/{dealer_card}.png')
 				dealer_label_1.config(image=dealer_image1)
-				# Increment our player spot counter
-				dealer_spot += 1
-			elif dealer_spot == 1:
-				# Resize Card
-				dealer_image2 = resize_cards(f'image0/card2/{dealer_card}.png')
-				# Output Card To Screen
-				dealer_label_2.config(image=dealer_image2)
-				# Increment our player spot counter
-				dealer_spot += 1
-			elif dealer_spot == 2:
-				# Resize Card
-				dealer_image3 = resize_cards(f'image0/card2/{dealer_card}.png')
-				# Output Card To Screen
-				dealer_label_3.config(image=dealer_image3)
-				# Increment our player spot counter
-				dealer_spot += 1
+				dealer_area += 1
+		elif dealer_area == 1:
+			dealer_image2 = size_cards(f'image0/card2/{dealer_card}.png')
+			dealer_label_2.config(image=dealer_image2)
+			dealer_area += 1
+		elif dealer_area == 2:
+			dealer_image3 = size_cards(f'image0/card2/{dealer_card}.png')
+			dealer_label_3.config(image=dealer_image3)
+			dealer_area += 1
 
-			# Put number of remaining cards in title bar
-			root.title(f'Codemy.com - {len(deck)} Cards Left')
-
-		except:
-			root.title(f'Codemy.com - No Cards In Deck')
-
-
-
+"""player_hit function"""
 def player_hit():
-	global player_spot, player_total, dealer_score
+	"""ใช้สำหรับจั่วไพ่ฝั่งผู้เล่นมือ"""
+	global player_area, player_total, dealer_score
 
-	if player_spot < 3:
+	if player_area < 3:
+		player_card = random.choice(deck)
+		player.append(player_card)
+		score_cards_player = int(player_card.split("_", 1)[0])
+		if score_cards_player == 14:
+			player_score.append(11)
+		elif score_cards_player == 11 or score_cards_player == 12 or score_cards_player == 13 or score_cards_player == 10:
+			player_score.append(0)
+		else:
+			player_score.append(score_cards_player)
 
-			# Get the player Card
-			player_card = random.choice(deck)
-			# Remove Card From Deck
-			# Append Card To Dealer List
-			player.append(player_card)
-
-			# Append to dealer score list and convert facecards to 10 or 11
-			pcard = int(player_card.split("_", 1)[0])
-			if pcard == 14:
-				player_score.append(11)
-			elif pcard == 11 or pcard == 12 or pcard == 13 or pcard == 10:
-				player_score.append(0)
-			else:
-				player_score.append(pcard)
-
-				 
 			global player_image1, player_image2, player_image3, player_image4, player_image5
 			
-			
-			if player_spot == 0:
-				# Resize Card
-				player_image1 = resize_cards(f'image0/card2/{player_card}.png')
-				# Output Card To Screen
-				player_label_1.config(image=player_image1)
-				# Increment our player spot counter
-				player_spot += 1
-			elif player_spot == 1:
-				# Resize Card
-				player_image2 = resize_cards(f'image0/card2/{player_card}.png')
-				# Output Card To Screen
-				player_label_2.config(image=player_image2)
-				# Increment our player spot counter
-				player_spot += 1
-			elif player_spot == 2:
-				# Resize Card
-				player_image3 = resize_cards(f'image0/card2/{player_card}.png')
-				# Output Card To Screen
-				player_label_3.config(image=player_image3)
-				# Increment our player spot counter
-				player_spot += 1
-
+		if player_area == 0:
+			player_image1 = size_cards(f'image0/card2/{player_card}.png')
+			player_label_1.config(image=player_image1)
+			player_area += 1
+		elif player_area == 1:
+			player_image2 = size_cards(f'image0/card2/{player_card}.png')
+			player_label_2.config(image=player_image2)
+			player_area += 1
+		elif player_area == 2:
+			player_image3 = size_cards(f'image0/card2/{player_card}.png')
+			player_label_3.config(image=player_image3)
+			player_area += 1
 
 
 my_frame = Frame(root, bg="green")
@@ -311,7 +259,7 @@ shuffle_button.grid(row=0, column=0)
 card_button = Button(button_frame, text="Hit Me!", font=("Helvetica", 14), command=player_hit)
 card_button.grid(row=0, column=1, padx=10)
 
-stand_button = Button(button_frame, text="Stand!", font=("Helvetica", 14), command=stand)
+stand_button = Button(button_frame, text="Stand!", font=("Helvetica", 14), command=play)
 stand_button.grid(row=0, column=2)
 
 
