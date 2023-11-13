@@ -5,8 +5,8 @@ from tkinter import messagebox
 
 root = Tk()
 root.title('Codemy.com - Card Deck')
-root.geometry("1200x800")
-root.configure(background="green")
+root.geometry("1600x900")
+root.configure(background="red")
 
 #play function
 """Play_Function"""
@@ -19,21 +19,21 @@ def play():
 	#เพิ่มสกอร์ฝั่งเจ้ามือ
 	for score in dealer_score:
 		dealer_total += score
-		
+
 	#เพิ่มสกอรืฝั่งผู้เล่น
 	for score in player_score:
 		player_total += score
-		
+
 	# Freeze the buttons
 	card_button.config(state="disabled")
 	stand_button.config(state="disabled")
-	
+
 	#ถ้าเกินสิบนับเเต้มหลักหน่วย
 	if player_total >= 10:
 			player_total = player_total % 10
 	if dealer_total >= 10:
 			dealer_total = dealer_total % 10
-			
+
 	if player_total >= 6:
 		if dealer_total >= 8:
 			if dealer_total == player_total:
@@ -214,6 +214,7 @@ def player_hit():
 			player_image3 = size_cards(f'image0/card2/{player_card}.png')
 			player_label_3.config(image=player_image3)
 			player_area += 1
+
 
 
 my_frame = Frame(root, bg="green")
