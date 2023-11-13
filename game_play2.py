@@ -1,12 +1,17 @@
 from tkinter import *
 import random
+import tkinter as tk
 from PIL import Image, ImageTk
 from tkinter import messagebox
 
 root = Tk()
-root.title('Codemy.com - Card Deck')
+root.title('BA-RA-CAT')
 root.geometry("1600x900")
-root.configure(background="red")
+game_img = Image.open("game.jpg")
+resize_game_img = game_img.resize((1600, 900))
+game_photo = ImageTk.PhotoImage(resize_game_img)
+labelcat = tk.Label(root, image=game_photo)
+labelcat.place(relwidth=1, relheight=1)
 
 count = 100
 if count < 100:
@@ -191,6 +196,20 @@ def size_cards(card):
 	card_image_open = ImageTk.PhotoImage(card_resize_size)
 	return card_image_open
 
+def standby():
+	backcard_image = Image.open("backcard.png")
+	resize = backcard_image.resize((150, 218))
+	global backcard_resize
+	backcard_resize = ImageTk.PhotoImage(resize)
+	dealer_label_1.config(image=backcard_resize)
+	dealer_label_2.config(image=backcard_resize)
+
+	player_label_1.config(image=backcard_resize)
+	player_label_2.config(image=backcard_resize)
+
+
+
+
 # สับไพ่
 """shuffle"""
 def shuffle():
@@ -306,7 +325,7 @@ def player_hit():
 
 
 
-my_frame = Frame(root, bg="green")
+my_frame = Frame(root)
 my_frame.pack(pady=20)
 
 # Create Frames For Cards
@@ -338,8 +357,9 @@ player_label_3 = Label(player_frame, text='')
 player_label_3.grid(row=1, column=2, pady=20, padx=20)
 
 
+
 # Create Button Frame
-button_frame = Frame(root, bg="green")
+button_frame = Frame(root)
 button_frame.pack(pady=20)
 
 # Create a couple buttons
@@ -364,7 +384,7 @@ tie_button.grid(row=1, column=2)
 
 
 # Shuffle Deck On Start
-shuffle()
+standby()
 
 
 root.mainloop()
