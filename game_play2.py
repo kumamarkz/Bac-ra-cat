@@ -8,11 +8,28 @@ root.title('Codemy.com - Card Deck')
 root.geometry("1600x900")
 root.configure(background="red")
 
+count = 100
+if count < 100:
+	messagebox.showinfo("Game over")
+
+def player():
+	global stat
+	stat = "player"
+	
+def dealer():
+	global stat
+	stat = "dealer"
+	
+def tie():
+	global stat
+	stat = "tie"
+	
+
 #play function
 """Play_Function"""
 def play():
 	"""ใช้ตอนกดplay จะนับเเต้มไพ่เเละดูว่าฝั่งไหนชนะ"""
-	global player_total, dealer_total, player_score
+	global player_total, dealer_total, player_score, stat, count
 	player_total = 0
 	dealer_total = 0
 
@@ -38,18 +55,42 @@ def play():
 		if dealer_total >= 8:
 			if dealer_total == player_total:
 				messagebox.showinfo("Tie OwO", "It's a Tie!!  %d : %d"%(dealer_total, player_total))
+				if stat == "tie":
+					count += 100
+				else:
+					count -= 100
 			elif dealer_total > player_total:
 				messagebox.showinfo("Dealer Wins OwO", "Dealer Wins!  Dealer: %d : %d"%(dealer_total, player_total))
+				if stat == "dealer":
+					count += 100
+				else:
+					count -= 100
 			else:
 				messagebox.showinfo("Player Wins OwO", "Player Wins!  Dealer: %d : %d"%(dealer_total, player_total))
+				if stat == "player":
+					count += 100
+				else:
+					count -= 100
 		elif dealer_total < 8:
 			if dealer_total >= player_total:
 				if dealer_total == player_total:
 					messagebox.showinfo("Tie OwO", "It's a Tie!!  %d : %d"%(dealer_total, player_total))
+					if stat == "tie":
+						count += 100
+					else:
+						count -= 100
 				elif dealer_total > player_total:
 					messagebox.showinfo("Dealer Wins OwO", "Dealer Wins!  Dealer: %d : %d"%(dealer_total, player_total))
+					if stat == "dealer":
+						count += 100
+					else:
+						count -= 100
 				else:
 					messagebox.showinfo("Player Wins OwO", "Player Wins!  Dealer: %d : %d"%(dealer_total, player_total))
+					if stat == "player":
+						count += 100
+					else:
+						count -= 100
 			else:
 				dealer_hit()
 				dealer_total += dealer_score[-1]
@@ -57,10 +98,22 @@ def play():
 					dealer_total = dealer_total % 10
 				if dealer_total == player_total:
 					messagebox.showinfo("Tie OwO", "It's a Tie!!  %d : %d"%(dealer_total, player_total))
+					if stat == "tie":
+						count += 100
+					else:
+						count -= 100
 				elif dealer_total > player_total:
 					messagebox.showinfo("Dealer Wins OwO", "Dealer Wins!  Dealer: %d : %d"%(dealer_total, player_total))
+					if stat == "dealer":
+						count += 100
+					else:
+						count -= 100
 				else:
 					messagebox.showinfo("Player Wins OwO", "Player Wins!  Dealer: %d : %d"%(dealer_total, player_total))
+					if stat == "player":
+						count += 100
+					else:
+						count -= 100
 	else:
 		player_hit()
 		player_total += player_score[-1]
@@ -69,18 +122,42 @@ def play():
 		if dealer_total >= 8:
 			if dealer_total == player_total:
 				messagebox.showinfo("Tie OwO", "It's a Tie!!  %d : %d"%(dealer_total, player_total))
+				if stat == "tie":
+						count += 100
+				else:
+					count -= 100
 			elif dealer_total > player_total:
 				messagebox.showinfo("Dealer Wins OwO", "Dealer Wins!  Dealer: %d : %d"%(dealer_total, player_total))
+				if stat == "dealer":
+					count += 100
+				else:
+					count -= 100
 			else:
 				messagebox.showinfo("Player Wins OwO", "Player Wins!  Dealer: %d : %d"%(dealer_total, player_total))
+				if stat == "player":
+					count += 100
+				else:
+					count -= 100
 		elif dealer_total < 8:
 			if dealer_total >= player_total:
 				if dealer_total == player_total:
 					messagebox.showinfo("Tie OwO", "It's a Tie!!  %d : %d"%(dealer_total, player_total))
+					if stat == "tie":
+						count += 100
+					else:
+						count -= 100
 				elif dealer_total > player_total:
 					messagebox.showinfo("Dealer Wins OwO", "Dealer Wins!  Dealer: %d : %d"%(dealer_total, player_total))
+					if stat == "dealer":
+						count += 100
+					else:
+						count -= 100
 				else:
 					messagebox.showinfo("Player Wins OwO", "Player Wins!  Dealer: %d : %d"%(dealer_total, player_total))
+					if stat == "player":
+						count += 100
+					else:
+						count -= 100
 			else:
 				dealer_hit()
 				dealer_total += dealer_score[-1]
@@ -88,10 +165,22 @@ def play():
 					dealer_total = dealer_total % 10
 				if dealer_total == player_total:
 					messagebox.showinfo("Tie OwO", "It's a Tie!!  %d : %d"%(dealer_total, player_total))
+					if stat == "tie":
+						count += 100
+					else:
+						count -= 100
 				elif dealer_total > player_total:
 					messagebox.showinfo("Dealer Wins OwO", "Dealer Wins!  Dealer: %d : %d"%(dealer_total, player_total))
+					if stat == "dealer":
+						count += 100
+					else:
+						count -= 100
 				else:
 					messagebox.showinfo("Player Wins OwO", "Player Wins!  Dealer: %d : %d"%(dealer_total, player_total))
+					if stat == "player":
+						count += 100
+					else:
+						count -= 100
 """size_cards"""
 def size_cards(card):
 	"""ปรับขนาดไพ่"""
@@ -106,11 +195,12 @@ def size_cards(card):
 """shuffle"""
 def shuffle():
 	"""ฟังก์ชันสำหรับ สับไพ่"""
-	global player_total, dealer_total
+	global player_total, dealer_total, stat
 	
+	print(count)
 	player_total = 0
 	dealer_total = 0
-
+	stat = 0
 	# Enable buttons
 	card_button.config(state="normal")
 	stand_button.config(state="normal")
@@ -143,7 +233,6 @@ def shuffle():
 	player_score = []
 	dealer_area = 0
 	player_area = 0
-
 
 
 	# Shuffle Two Cards for player and dealer
@@ -262,6 +351,15 @@ card_button.grid(row=0, column=1, padx=10)
 
 stand_button = Button(button_frame, text="Stand!", font=("Helvetica", 14), command=play)
 stand_button.grid(row=0, column=2)
+
+play_button = Button(button_frame, text="player", font=("Helvetica", 14), command=player)
+play_button.grid(row=1, column=0)
+
+dealer_button = Button(button_frame, text="Dealer!", font=("Helvetica", 14), command=dealer)
+dealer_button.grid(row=1, column=1, padx=10)
+
+tie_button = Button(button_frame, text="Tie", font=("Helvetica", 14), command=tie)
+tie_button.grid(row=1, column=2)
 
 
 

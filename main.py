@@ -62,6 +62,7 @@ mixer.init()
 mixer.music.load("song_bg_1.mp3")
 mixer.music.play(loops=1000)
 
+
 #icon game
 root.iconbitmap("cat_icon.ico")
 
