@@ -11,7 +11,7 @@ import time
 
 
 root = tk.Tk()
-root.title("BA-RA-CAT")
+root.title("BAC-RA-CAT")
 
 #หน้าจอ
 start_page = tk.Frame(root)
