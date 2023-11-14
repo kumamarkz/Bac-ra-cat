@@ -3,6 +3,7 @@ import random
 import tkinter as tk
 from PIL import Image, ImageTk
 from tkinter import messagebox
+import time
 
 root = Tk()
 root.title('BA-RA-CAT')
@@ -47,7 +48,6 @@ def play():
 		player_total += score
 
 	# Freeze the buttons
-	card_button.config(state="disabled")
 	stand_button.config(state="disabled")
 
 	#ถ้าเกินสิบนับเเต้มหลักหน่วย
@@ -203,9 +203,13 @@ def standby():
 	backcard_resize = ImageTk.PhotoImage(resize)
 	dealer_label_1.config(image=backcard_resize)
 	dealer_label_2.config(image=backcard_resize)
+	dealer_label_3.config(image=backcard_resize)
 
 	player_label_1.config(image=backcard_resize)
 	player_label_2.config(image=backcard_resize)
+	player_label_3.config(image=backcard_resize)
+
+	stand_button.config(state="normal")
 
 
 
@@ -221,7 +225,6 @@ def shuffle():
 	dealer_total = 0
 	stat = 0
 	# Enable buttons
-	card_button.config(state="normal")
 	stand_button.config(state="normal")
 
 	#เคลียร์การ์ดเก่า
@@ -308,7 +311,7 @@ def player_hit():
 		else:
 			player_score.append(score_cards_player)
 
-			global player_image1, player_image2, player_image3, player_image4, player_image5
+			global player_image1, player_image2, player_image3
 			
 		if player_area == 0:
 			player_image1 = size_cards(f'image0/card2/{player_card}.png')
@@ -322,6 +325,12 @@ def player_hit():
 			player_image3 = size_cards(f'image0/card2/{player_card}.png')
 			player_label_3.config(image=player_image3)
 			player_area += 1
+
+bet_frame = Frame(root)
+bet_frame.pack(side=RIGHT,padx=100)
+
+name_label_1 = Label(bet_frame, text='sdasdasdadada')
+name_label_1.grid(row=0, column=0, pady=20, padx=20)
 
 
 
@@ -356,34 +365,32 @@ player_label_2.grid(row=1, column=1, pady=20, padx=20)
 player_label_3 = Label(player_frame, text='')
 player_label_3.grid(row=1, column=2, pady=20, padx=20)
 
-
+def shuffleandplay():
+	shuffle()
+	play()
 
 # Create Button Frame
 button_frame = Frame(root)
 button_frame.pack(pady=20)
 
 # Create a couple buttons
-shuffle_button = Button(button_frame, text="Shuffle Deck", font=("Helvetica", 14), command=shuffle)
-shuffle_button.grid(row=0, column=0)
+nextbet_button = Button(button_frame, text="Next Bet", font=("Helvetica", 20), command=standby)
+nextbet_button.grid(row=0, column=0)
 
-card_button = Button(button_frame, text="Hit Me!", font=("Helvetica", 14), command=player_hit)
-card_button.grid(row=0, column=1, padx=10)
-
-stand_button = Button(button_frame, text="Stand!", font=("Helvetica", 14), command=play)
+stand_button = Button(button_frame, text="Stand!", font=("Helvetica", 20), command=shuffleandplay)
 stand_button.grid(row=0, column=2)
 
-play_button = Button(button_frame, text="player", font=("Helvetica", 14), command=player)
-play_button.grid(row=1, column=0)
+play_button = Button(button_frame, text="Player\n"+"", font=("Helvetica",20), command=player)
+play_button.grid(row=1, column=0,pady=10,padx=10)
 
-dealer_button = Button(button_frame, text="Dealer!", font=("Helvetica", 14), command=dealer)
-dealer_button.grid(row=1, column=1, padx=10)
+dealer_button = Button(button_frame, text="Dealer\n"+"", font=("Helvetica", 20), command=dealer)
+dealer_button.grid(row=1, column=2,pady=10,padx=10)
 
-tie_button = Button(button_frame, text="Tie", font=("Helvetica", 14), command=tie)
-tie_button.grid(row=1, column=2)
+tie_button = Button(button_frame, text="Tie\n"+"", font=("Helvetica", 20), command=tie)
+tie_button.grid(row=1, column=1,pady=10,padx=10)
 
 
-
-# Shuffle Deck On Start
+# Standby Deck On Start
 standby()
 
 
