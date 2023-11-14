@@ -15,10 +15,8 @@ root.title("BA-RA-CAT")
 
 #หน้าจอ
 start_page = tk.Frame(root)
-name_page = tk.Frame(root)
 play_page = tk.Frame(root)
 start_page.grid(row=0,column=0,sticky="nsew")
-name_page.grid(row=0,column=0,sticky="nsew")
 play_page.grid(row=0,column=0,sticky="nsew")
 
 game_img = Image.open("game.jpg")
@@ -39,40 +37,37 @@ img = Image.open("main.png")
 resize_img = img.resize((1600, 900))
 photo = ImageTk.PhotoImage(resize_img)
 labelcat = tk.Label(start_page, image=photo)
-labelcat2 = tk.Label(name_page, image=photo)
 labelcat.pack()
-labelcat2.pack()
 
-
-#ใส่ข้อความในจอ
-
-mylabel2 = tk.Label(name_page,text="PG 2",fg="Green",font=60,bg="orange")
-mylabel2.place(relx=0.5, rely=0.5, anchor="center")
-
-btn_start2 = tk.Button(name_page,text="Start",font=("Helvetica", 20),command= lambda: play_page.tkraise())
-btn_start2.place(relx=0.5, rely=0.55, anchor="center")
 
 #ใส่ปุ่ม
-btn_start = tk.Button(start_page,text="Start",font=("Helvetica", 20),command= lambda: name_page.tkraise())
+btn_start = tk.Button(start_page,text="Start",font=("Helvetica", 20),command= lambda: play_page.tkraise())
 btn_start.place(relx=0.5, rely=0.55, anchor="center")
 btn_exit = tk.Button(start_page,text="Exit",font=("Helvetica", 20),command=exitProgram)
 btn_exit.place(relx=0.5, rely=0.65, anchor="center")
 
-count = 100
-if count < 100:
-	messagebox.showinfo("Game over")
+count = 1000
 
 def player():
 	global stat
 	stat = "player"
-	
+	stand_button.config(state="normal")
+	tie_button.config(state="disable")
+	dealer_button.config(state="disable")
+
 def dealer():
 	global stat
 	stat = "dealer"
-	
+	stand_button.config(state="normal")
+	play_button.config(state="disable")
+	tie_button.config(state="disable")
+
 def tie():
 	global stat
 	stat = "tie"
+	stand_button.config(state="normal")
+	dealer_button.config(state="disable")
+	play_button.config(state="disable")
 	
 
 #play function
@@ -105,7 +100,7 @@ def play():
 			if dealer_total == player_total:
 				messagebox.showinfo("Tie OwO", "It's a Tie!!  %d : %d"%(dealer_total, player_total))
 				if stat == "tie":
-					count += 100
+					count += 500
 				else:
 					count -= 100
 			elif dealer_total > player_total:
@@ -125,7 +120,7 @@ def play():
 				if dealer_total == player_total:
 					messagebox.showinfo("Tie OwO", "It's a Tie!!  %d : %d"%(dealer_total, player_total))
 					if stat == "tie":
-						count += 100
+						count += 500
 					else:
 						count -= 100
 				elif dealer_total > player_total:
@@ -148,7 +143,7 @@ def play():
 				if dealer_total == player_total:
 					messagebox.showinfo("Tie OwO", "It's a Tie!!  %d : %d"%(dealer_total, player_total))
 					if stat == "tie":
-						count += 100
+						count += 500
 					else:
 						count -= 100
 				elif dealer_total > player_total:
@@ -172,7 +167,7 @@ def play():
 			if dealer_total == player_total:
 				messagebox.showinfo("Tie OwO", "It's a Tie!!  %d : %d"%(dealer_total, player_total))
 				if stat == "tie":
-						count += 100
+						count += 500
 				else:
 					count -= 100
 			elif dealer_total > player_total:
@@ -192,7 +187,7 @@ def play():
 				if dealer_total == player_total:
 					messagebox.showinfo("Tie OwO", "It's a Tie!!  %d : %d"%(dealer_total, player_total))
 					if stat == "tie":
-						count += 100
+						count += 500
 					else:
 						count -= 100
 				elif dealer_total > player_total:
@@ -215,7 +210,7 @@ def play():
 				if dealer_total == player_total:
 					messagebox.showinfo("Tie OwO", "It's a Tie!!  %d : %d"%(dealer_total, player_total))
 					if stat == "tie":
-						count += 100
+						count += 500
 					else:
 						count -= 100
 				elif dealer_total > player_total:
@@ -252,9 +247,13 @@ def standby():
 	player_label_1.config(image=backcard_resize)
 	player_label_2.config(image=backcard_resize)
 	player_label_3.config(image=backcard_resize)
-
-	stand_button.config(state="normal")
-
+	nextbet_button.config(state="disable")
+	stand_button.config(state="disable")
+	tie_button.config(state="normal")
+	play_button.config(state="normal")
+	dealer_button.config(state="normal")
+	stand_button.config(state="disable")
+	
 
 
 
@@ -262,12 +261,11 @@ def standby():
 """shuffle"""
 def shuffle():
 	"""ฟังก์ชันสำหรับ สับไพ่"""
-	global player_total, dealer_total, stat
+	global player_total, dealer_total
 	
 	print(count)
 	player_total = 0
 	dealer_total = 0
-	stat = 0
 	# Enable buttons
 	stand_button.config(state="normal")
 
@@ -372,10 +370,6 @@ def player_hit():
 
 
 
-name_label_1 = Label(play_page, text='sdasdasdadada')
-name_label_1.place(relx=0.8, rely=0.8, anchor="center")
-
-
 
 
 
@@ -407,9 +401,35 @@ player_label_2.grid(row=1, column=1, pady=20, padx=20)
 player_label_3 = Label(player_frame, text='')
 player_label_3.grid(row=1, column=2, pady=20, padx=20)
 
+
+name_label_1 = Label(play_page, text="Money : "+str(count), font=("Helvetica", 20),width=12,height=2)
+name_label_1.place(relx=0.8, rely=0.8, anchor="center")
+
+rule_label = Label(play_page, text="เลือกฝั่งที่คุณจะลง ลงครั้งละ 100 \nถ้าคุณเลือกถูกจะได้เพิ่ม100เเต่ถ้าผิดจะลบ100\nเเต่ถ้าคุณเลือก Tie คุณมีโอกาสได้รับถึง500\nง่ายใช่ไหมล่ะ ลองเล่นได้เลย", font=("Helvetica", 20))
+rule_label.place(relx=0.18, rely=0.8, anchor="center")
+
+
+
 def shuffleandplay():
 	shuffle()
 	play()
+	stand_button.config(state="disable")
+	tie_button.config(state="disable")
+	play_button.config(state="disable")
+	dealer_button.config(state="disable")
+	nextbet_button.config(state="normal")
+	name_label_1 = Label(play_page, text="Money : "+str(count), font=("Helvetica", 20),width=12,height=2)
+	name_label_1.place(relx=0.8, rely=0.8, anchor="center")
+	if count <= 0:
+		confirm = tkinter.messagebox.askquestion("คุณหมดตัวเเล้ว","คุณต้องการออกโปรแกรมหรือไม่ ?")
+		if confirm == "yes":
+			root.destroy()
+		elif confirm == "no":
+			confirm2 = tkinter.messagebox.askquestion("ขอโทษทีคุณเเพ้เเล้ว","ถึงตอบไม่ก็ต้องออก")
+			if confirm2 == "yes":
+				root.destroy()
+			else:
+				root.destroy()
 
 # Create a couple buttons
 nextbet_button = Button(play_page, text="Next Bet", font=("Helvetica", 20), command=standby)
@@ -418,13 +438,13 @@ nextbet_button.place(relx=0.45, rely=0.7, anchor="center")
 stand_button = Button(play_page, text="  Play  ", font=("Helvetica", 20), command=shuffleandplay)
 stand_button.place(relx=0.55, rely=0.7, anchor="center")
 
-play_button = Button(play_page, text="Player\n"+"", font=("Helvetica",20), command=player)
+play_button = Button(play_page, text="Player", font=("Helvetica",20), command=player)
 play_button.place(relx=0.4, rely=0.8, anchor="center")
 
-tie_button = Button(play_page, text="  Tie  \n"+"", font=("Helvetica", 20), command=tie)
+tie_button = Button(play_page, text="  Tie  ", font=("Helvetica", 20), command=tie)
 tie_button.place(relx=0.5, rely=0.8, anchor="center")
 
-dealer_button = Button(play_page, text="Dealer\n"+"", font=("Helvetica", 20), command=dealer)
+dealer_button = Button(play_page, text="Dealer", font=("Helvetica", 20), command=dealer)
 dealer_button.place(relx=0.6, rely=0.8, anchor="center")
 
 
